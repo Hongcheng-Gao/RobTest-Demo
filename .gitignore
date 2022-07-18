@@ -1,0 +1,10 @@
+
+**/__pycache__/
+
+
+
+.idea
+*/.idea
+
+.DS_Store
+*/.DS_Store
