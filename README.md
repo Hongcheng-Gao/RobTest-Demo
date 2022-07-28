@@ -48,7 +48,7 @@ def read_jigsaw(base_path):
 
    ```
    cd RobTest-Demo
-   python robtest.py --mode score --attacker typo --data agnews --size base --dis_type word --choice both --victim model roberta-large
+   python robtest.py --mode score --attacker typo --data agnews  --dis_type word --choice both --victim_model textattack/roberta-base-ag-news
    ```
 
    - mode:  default='score', choices=['**rule', 'score'**, 'decision', 'gradient'])
