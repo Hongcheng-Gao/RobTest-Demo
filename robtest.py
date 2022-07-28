@@ -24,18 +24,19 @@ import random
 
 
 
-def read_all_data(base_path):
+
+def read_agnews(base_path):
     def read_data(file_path):
-        data = pd.read_csv(file_path, sep='\t').values.tolist()
+        data = pd.read_csv(file_path).values.tolist()
         processed_data = []
         for item in data:
-            processed_data.append((item[0].strip(), item[1]))
+            processed_data.append((item[1].strip()+" "+item[2].strip(), item[0]-1))
         return processed_data
-    train_path = os.path.join(base_path, 'train.tsv')
-    dev_path = os.path.join(base_path, 'dev.tsv')
-    test_path = os.path.join(base_path, 'test.tsv')
-    train, dev, test = read_data(train_path), read_data(dev_path), read_data(test_path)
-    return train, dev, test
+    train_path = os.path.join(base_path, 'train.csv')
+    # dev_path = os.path.join(base_path, 'dev.tsv')
+    test_path = os.path.join(base_path, 'test.csv')
+    train, test = read_data(train_path),  read_data(test_path)
+    return train, test
 
 def read_jigsaw(base_path):
     def read_data(file_path):
@@ -121,16 +122,16 @@ if __name__ == '__main__':
 
 #######################################################################
     if victim_model == 'ag_newsroberta-large': # 自定义模型
-        evaluated_model, tokenizer = load_agnews_model(data)
-    elif data=="jigsaw-roberta-large": # 自定义模型2
-        evaluated_model, tokenizer = load_jigsaw_model(data)
+        evaluated_model, tokenizer = load_agnews_model()
+    elif victim_model=="jigsaw-roberta-large": # 自定义模型2
+        evaluated_model, tokenizer = load_jigsaw_model()
     else:
-        evaluated_model, tokenizer = load_evaluated_model(data)
+        evaluated_model, tokenizer = load_evaluated_model(victim_model)
 
     if data=='jigsaw': # 自定义数据
          train_dataset, test_dataset = read_jigsaw(base_path)
-    else:  # 样例数据
-        train_dataset, dev_dataset, test_dataset = read_all_data(base_path)
+    else:  # 样例数据agnews
+        train_dataset, test_dataset = read_agnews(base_path)
 ##########################################################################
 
     random.seed(123)
