@@ -1,7 +1,7 @@
 from copy import deepcopy
 import os 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  #（保证程序cuda序号与实际cuda序号对应）
-os.environ['CUDA_VISIBLE_DEVICES'] = "0,1"  #（代表仅使用第0，1号GPU）
+os.environ['CUDA_VISIBLE_DEVICES'] = "6,7"  #（代表仅使用第0，1号GPU）
 
 import argparse
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -22,7 +22,18 @@ import random
 # import nltk
 # nltk.download('averaged_perceptron_tagger')
 
-
+def read_all_data(base_path):
+    def read_data(file_path):
+        data = pd.read_csv(file_path, sep='\t').values.tolist()
+        processed_data = []
+        for item in data:
+            processed_data.append((item[0].strip(), item[1]))
+        return processed_data
+    train_path = os.path.join(base_path, 'train.tsv')
+    dev_path = os.path.join(base_path, 'dev.tsv')
+    test_path = os.path.join(base_path, 'test.tsv')
+    train, dev, test = read_data(train_path), read_data(dev_path), read_data(test_path)
+    return train, dev, test
 
 
 def read_agnews(base_path):
@@ -129,9 +140,11 @@ if __name__ == '__main__':
         evaluated_model, tokenizer = load_evaluated_model(victim_model)
 
     if data=='jigsaw': # 自定义数据
-         train_dataset, test_dataset = read_jigsaw(base_path)
-    else:  # 样例数据agnews
+        train_dataset, test_dataset = read_jigsaw(base_path)
+    elif data=="agnews":  # 样例数据agnews
         train_dataset, test_dataset = read_agnews(base_path)
+    else:
+        train_dataset, dev_dataset, test_dataset = read_all_data(base_path)
 ##########################################################################
 
     random.seed(123)
@@ -212,20 +225,6 @@ if __name__ == '__main__':
         c={"degree" : degrees,"average" : ave_save, "worst" : wst_save}
         data=DataFrame(c)
     data.to_csv('./output/'+"_"+data+"_"+victim_model+"_"+attacker,index=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
