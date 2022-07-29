@@ -84,9 +84,7 @@ synonym_dict = {}
 antonym_dict = {}
 synonym_dict_path = os.path.join(os.path.dirname(__file__), 'synonym_dict.pt')
 antonym_dict_path = os.path.join(os.path.dirname(__file__), 'antonym_dict.pt')
-sent_dict_path = os.path.join(os.path.dirname(__file__), 'synonym_jigsaw_dict.pt')
 
-sent_dict = torch.load(sent_dict_path) if os.path.exists(sent_dict_path) else {}
 # def init_wordnet():
 #     global synonym_dict, antonym_dict, synonym_dict_path, antonym_dict_path
 #     synonym_dict = torch.load(synonym_dict_path) if os.path.exists(synonym_dict_path) else {}
