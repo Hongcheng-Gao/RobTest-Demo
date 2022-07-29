@@ -10,7 +10,7 @@ import math
 import torch
 import os
 # name_ = 'sst2'
-phonetic_dict_path = os.path.join('/data/private/gaohongcheng/BenchmarkRobustness-NLP-main/AttackMethod/RuleBased/Char/p_agnews_dict.pt')
+phonetic_dict_path = os.path.join('AttackMethod/RuleBased/Char/p_agnews_dict.pt')
 anthro = ANTHRO()
 anthro.load('AttackMethod/RuleBased/Char/anthro/ANTHRO_Data_V1.0')
 candidate_words_dict = torch.load(phonetic_dict_path) if os.path.exists(phonetic_dict_path) else {}
