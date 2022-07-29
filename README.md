@@ -33,22 +33,10 @@ def read_jigsaw(base_path):
     return train, test
 ```
 
-3. 运行
-
-   （1） 解压样例数据
-
-   ``` 
-   cd RobTest-Demo/data
-   unzip sst2.zip
-   unzip jigsaw.zip
-   unzip agnews.zip
-   ```
-
-   （2） 终端运行
+3.   运行
 
    ```
-   cd RobTest-Demo
-   python robtest.py --mode score --attacker typo --data agnews  --dis_type word --choice both --victim_model textattack/roberta-base-ag-news
+   python robtest.py --mode score --attacker typo --data agnews --size base --dis_type word --choice both --victim model roberta-large
    ```
 
    - mode:  default='score', choices=['**rule', 'score'**, 'decision', 'gradient'])

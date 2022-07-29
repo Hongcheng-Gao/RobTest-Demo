@@ -27,8 +27,8 @@ os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 
 
-path_to_jar = '/data/private/gaohongcheng/BenchmarkRobustness-NLP-main/stanford-postagger-full-2020-11-17/stanford-postagger-4.2.0.jar'
-path_to_model = '/data/private/gaohongcheng/BenchmarkRobustness-NLP-main/stanford-postagger-full-2020-11-17/models/english-bidirectional-distsim.tagger'
+path_to_jar = 'RobTest/stanford-postagger-full-2020-11-17/stanford-postagger-4.2.0.jar'
+path_to_model = 'RobTest/BenchmarkRobustness-NLP-main/stanford-postagger-full-2020-11-17/models/english-bidirectional-distsim.tagger'
 stop_words = {'!', '"', '#', '$', '%', '&', "'", "'s", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>',
               '?', '@', '[', '\\', ']', '^', '_', '`', '``', 'a', 'about', 'above', 'after', 'again', 'against', 'ain',
               'all', 'am', 'an', 'and', 'any', 'are', 'aren', "aren't", 'as', 'at', 'be', 'because', 'been', 'before',
@@ -84,7 +84,6 @@ synonym_dict = {}
 antonym_dict = {}
 synonym_dict_path = os.path.join(os.path.dirname(__file__), 'synonym_dict.pt')
 antonym_dict_path = os.path.join(os.path.dirname(__file__), 'antonym_dict.pt')
-
 # def init_wordnet():
 #     global synonym_dict, antonym_dict, synonym_dict_path, antonym_dict_path
 #     synonym_dict = torch.load(synonym_dict_path) if os.path.exists(synonym_dict_path) else {}
