@@ -27,8 +27,8 @@ os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 
 
-path_to_jar = 'RobTest-Demo/stanford-postagger-full-2020-11-17/stanford-postagger-4.2.0.jar'
-path_to_model = 'RobTest-Demo/BenchmarkRobustness-NLP-main/stanford-postagger-full-2020-11-17/models/english-bidirectional-distsim.tagger'
+path_to_jar = './stanford-postagger-full-2020-11-17/stanford-postagger-4.2.0.jar'
+path_to_model = './stanford-postagger-full-2020-11-17/models/english-bidirectional-distsim.tagger'
 stop_words = {'!', '"', '#', '$', '%', '&', "'", "'s", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>',
               '?', '@', '[', '\\', ']', '^', '_', '`', '``', 'a', 'about', 'above', 'after', 'again', 'against', 'ain',
               'all', 'am', 'an', 'and', 'any', 'are', 'aren', "aren't", 'as', 'at', 'be', 'because', 'been', 'before',
@@ -84,10 +84,10 @@ synonym_dict = {}
 antonym_dict = {}
 synonym_dict_path = os.path.join(os.path.dirname(__file__), 'synonym_dict.pt')
 antonym_dict_path = os.path.join(os.path.dirname(__file__), 'antonym_dict.pt')
-# def init_wordnet():
-#     global synonym_dict, antonym_dict, synonym_dict_path, antonym_dict_path
-#     synonym_dict = torch.load(synonym_dict_path) if os.path.exists(synonym_dict_path) else {}
-#     antonym_dict = torch.load(antonym_dict_path) if os.path.exists(antonym_dict_path) else {}
+def init_wordnet():
+    global synonym_dict, antonym_dict, synonym_dict_path, antonym_dict_path
+    synonym_dict = torch.load(synonym_dict_path) if os.path.exists(synonym_dict_path) else {}
+    antonym_dict = torch.load(antonym_dict_path) if os.path.exists(antonym_dict_path) else {}
     # print(synonym_dict, antonym_dict)
 
 
@@ -107,26 +107,26 @@ class SynonymTransform(RuleTransform):
         super().__init__(degree, aug_num)
 
         self.mlm_ckpt='bert-base-uncased'
-        # self.pos_tagger = StanfordPOSTagger(model_filename=path_to_model, path_to_jar=path_to_jar)
-        # self.ltz = WordNetLemmatizer()
+        self.pos_tagger = StanfordPOSTagger(model_filename=path_to_model, path_to_jar=path_to_jar)
+        self.ltz = WordNetLemmatizer()
         self.transform_types = ['wordnet', 'hownet']
         self.TRANSFORMATION = {
             'wordnet': self.wordnet_substitute, 
             'hownet': self.hownet_substitute, 
         }
         
-        # init_wordnet()
+        init_wordnet()
         self.ori_sent = ori_sent
-        # self.sememe_dict = OpenHowNet.HowNetDict()
-        self.sent_dict = sent_dict
+        self.sememe_dict = OpenHowNet.HowNetDict()
+        # self.sent_dict = sent_dict
         if len(ori_sent)>1:
             self.sents = [ori_sent]
-            if ' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:]) in self.sent_dict:
-                self.wordnet_dict,self.hownet_dict = self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][0],self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][1]
+            # if ' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:]) in self.sent_dict:
+            #     self.wordnet_dict,self.hownet_dict = self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][0],self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][1]
             # else:
-            #     self.sent_tag = self.pos_tag_wordnet(ori_sent.split())
-            #     self.wordnet_dict = self.get_wordnet_dict(ori_sent)
-            #     self.hownet_dict = self.get_hownet_dict(ori_sent)
+            self.sent_tag = self.pos_tag_wordnet(ori_sent.split())
+            self.wordnet_dict = self.get_wordnet_dict(ori_sent)
+            self.hownet_dict = self.get_hownet_dict(ori_sent)
             #     self.sent_dict[self.ori_sent] = [self.wordnet_dict,self.hownet_dict]
                 # torch.save(self.sent_dict, sent_dict_path)
                 
@@ -135,14 +135,14 @@ class SynonymTransform(RuleTransform):
 
     def transform(self, sentence): 
         self.ori_sent = sentence      
-        if ' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:]) in self.sent_dict:
-            self.wordnet_dict,self.hownet_dict = self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][0],self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][1]
+        # if ' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:]) in self.sent_dict:
+        #     self.wordnet_dict,self.hownet_dict = self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][0],self.sent_dict[' '.join(self.ori_sent.split()[0:15]+self.ori_sent.split()[-5:])][1]
             # print(self.ori_sent)
             # print(self.sent_dict[self.ori_sent][0][0],self.sent_dict[self.ori_sent][1][0])
         # else:
-        #     self.sent_tag = self.pos_tag_wordnet(sentence.split())
-        #     self.wordnet_dict = self.get_wordnet_dict(sentence)
-        #     self.hownet_dict = self.get_hownet_dict(sentence)
+        self.sent_tag = self.pos_tag_wordnet(sentence.split())
+        self.wordnet_dict = self.get_wordnet_dict(sentence)
+        self.hownet_dict = self.get_hownet_dict(sentence)
         #     self.sent_dict[self.ori_sent] = [self.wordnet_dict,self.hownet_dict]
             # torch.save(self.sent_dict, sent_dict_path)
 
