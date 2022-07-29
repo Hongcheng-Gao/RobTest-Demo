@@ -36,6 +36,7 @@ def read_jigsaw(base_path):
 3.   运行
 (1) 解压必要文件
    ```
+   cd RobTest-Demo
    unzip naacl2019-like-humans-visual-attacks.zip
    ```
 (2) 执行命令
