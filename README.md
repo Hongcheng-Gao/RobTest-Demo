@@ -34,9 +34,13 @@ def read_jigsaw(base_path):
 ```
 
 3.   运行
-
+(1) 解压必要文件
    ```
-   python robtest.py --mode score --attacker typo --data agnews --size base --dis_type word --choice both --victim model roberta-large
+   unzip naacl2019-like-humans-visual-attacks.zip
+   ```
+(2) 执行命令
+   ```
+   python robtest.py --mode score --attacker typo --data agnews  --dis_type word --choice both --victim_model textattack/roberta-base-ag-news
    ```
 
    - mode:  default='score', choices=['**rule', 'score'**, 'decision', 'gradient'])
