@@ -10,7 +10,7 @@ import torch
 def load_random_sentences_from_wikitext103(k):
 # https://blog.salesforceairesearch.com/the-wikitext-long-term-dependency-language-modeling-dataset/
     sentences = []
-    with open("RobTest-Demo/data/wikitext-103/wiki.valid.tokens") as f:
+    with open("./data/wikitext-103/wiki.valid.tokens") as f:
         for line in f:
             line = line.strip()
             if not line:
