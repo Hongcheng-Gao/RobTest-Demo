@@ -202,25 +202,25 @@ if __name__ == '__main__':
     if sent_acc_choice == "average":
         total_score = 0
         for i in range(len(ave_save)):
-            total_score += 0.5**(len(score)-i)*ave_save[i]
+            total_score += 0.5**(len(ave_save)-i)*ave_save[i]
         ave_save.append(total_score)
         c={"degree" : degrees, "average" : ave_save}
         data=DataFrame(c)
     if sent_acc_choice == "worst":
         total_score = 0
-        for i in range(len(ave_save)):
-            total_score += 0.5**(len(score)-i)*wst_save[i]
+        for i in range(len(wst_save)):
+            total_score += 0.5**(len(wst_save)-i)*wst_save[i]
         wst_save.append(total_score)
         c={"degree" : degrees, "worst" : wst_save}
         data=DataFrame(c)
     else:
         total_score = 0
         for i in range(len(ave_save)):
-            total_score += 0.5**(len(score)-i)*ave_save[i]
+            total_score += 0.5**(len(ave_save)-i)*ave_save[i]
         ave_save.append(total_score)
         total_score = 0
-        for i in range(len(ave_save)):
-            total_score += 0.5*(len(score)-i)*wst_save[i]
+        for i in range(len(wst_save)):
+            total_score += 0.5*(len(wst_save)-i)*wst_save[i]
         wst_save.append(total_score)
         c={"degree" : degrees,"average" : ave_save, "worst" : wst_save}
         data=DataFrame(c)
