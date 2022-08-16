@@ -25,7 +25,7 @@ transformer_dict = {
 
 
 def load_rule_transformer(name, degree, aug_num,dataset, dis_type="char"):
-    if name == "synonym" or name=="contextual" or "inflect":
+    if name == "synonym" or name=="contextual" or name=="inflect":
         return transformer_dict[name](degree, aug_num)
     elif name == "distraction":
         return transformer_dict[name](degree, aug_num, dataset)
