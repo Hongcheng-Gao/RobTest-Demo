@@ -117,7 +117,7 @@ if __name__ == '__main__':
     parser.add_argument('--searching', default='greedy', choices=['greedy', 'pso'])
     parser.add_argument('--degree', type=float, default=-1)  # range from [0, 1]
     parser.add_argument('--attacker', type=str, default='typo',
-                        choices=['typo', 'glyph', 'contextual', 'inflection', 'synonym', 'distraction'])
+                        choices=['typo', 'glyph', 'contextual', 'inflect', 'synonym', 'distraction'])
     parser.add_argument('--aug_num', type=int, default=100)
     parser.add_argument('--data', default='sst2')
     # parser.add_argument('--size', default='base')
